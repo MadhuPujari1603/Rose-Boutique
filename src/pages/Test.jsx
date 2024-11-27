@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import rose from './../assets/rose.jpeg';
 import red from './../assets/red.jpg';
 import bouteq from './../assets/tynq.jpg';
@@ -12,9 +12,9 @@ import slide from './../assets/slide1.jpg';
 import fi from './../assets/fi.png';
 import ma from './../assets/ma.jpg';
 
-
 const Test = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const roses = [
     {
@@ -30,8 +30,7 @@ const Test = () => {
         'Long-lasting freshness with a delightful fragrance.',
       ],
       care: 'Water regularly, ensuring the soil remains moist but not soaked. Keep in a sunny spot to enjoy the vibrant blooms.',
-    },
-    {
+    }, {
       id: 2,
       name: 'Scarlet Passion',
       image: rose,
@@ -120,6 +119,12 @@ const Test = () => {
 
   const roseItem = roses.find((item) => item.id === parseInt(id));
 
+  const handleOrderClick = () => {
+    if (roseItem) {
+      navigate('/order', { state: { roseName: roseItem.name } });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-200 via-white to-red-100 py-8 px-4">
       {roseItem ? (
@@ -176,7 +181,10 @@ const Test = () => {
 
           {/* Call-to-Action */}
           <footer className="text-center mt-12">
-            <button className="bg-pink-500 text-white py-4 px-8 rounded-full font-semibold text-lg shadow-md hover:bg-pink-600 transition duration-300">
+            <button
+              onClick={handleOrderClick}
+              className="bg-pink-500 text-white py-4 px-8 rounded-full font-semibold text-lg shadow-md hover:bg-pink-600 transition duration-300"
+            >
               Order {roseItem.name} Now
             </button>
           </footer>
